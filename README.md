@@ -25,9 +25,9 @@
 - **OpenAI API**: 提供高质量的内容翻译服务
 
 ### 部署和基础设施
-- **Vercel**: 应用托管和自动部署
-- **Vercel Cron Jobs**: 定时任务处理
-- **Vercel Postgres**: 数据库服务
+- **自托管选项**: 支持自定义服务器部署和定时任务
+- **可选 Vercel**: 应用托管和自动部署
+- **可选 Vercel Postgres**: 数据库服务
 
 ## 开发环境要求
 
@@ -38,41 +38,64 @@
 ## 本地开发
 
 1. 克隆项目
-\`\`\`bash
+```bash
 git clone https://github.com/ViggoZ/hackernews-cn.git
 cd hackernews-cn
-\`\`\`
+```
 
 2. 安装依赖
-\`\`\`bash
+```bash
 pnpm install
-\`\`\`
+```
 
 3. 配置环境变量
-\`\`\`bash
+```bash
 cp .env.example .env
-\`\`\`
+```
 然后编辑 .env 文件，填入必要的环境变量：
 - DATABASE_URL: PostgreSQL 数据库连接URL
 - OPENAI_API_KEY: OpenAI API密钥
 - NEXT_PUBLIC_APP_URL: 应用URL
 - CRON_SECRET: 定时任务密钥
+- CRON_SCHEDULE: 可选，定时任务调度表达式
 
 4. 初始化数据库
-\`\`\`bash
+```bash
 pnpm prisma db push
-\`\`\`
+```
 
 5. 启动开发服务器
-\`\`\`bash
+```bash
 pnpm dev
-\`\`\`
+```
 
 访问 http://localhost:3000 查看应用。
 
 ## 部署
 
-本项目已配置为可以直接部署到 Vercel 平台。
+### 自托管部署
+
+本项目支持在自己的服务器上部署，无需依赖 Vercel。
+
+1. 设置 PostgreSQL 数据库
+2. 配置环境变量
+3. 构建和启动应用
+   ```bash
+   pnpm build
+   pnpm start
+   ```
+4. 设置定时任务使用 node-cron
+   ```bash
+   # 使用 systemd (Linux)
+   sudo ./scripts/setup-service.sh
+   
+   # 使用 launchd (macOS)
+   ./scripts/setup-launchd.sh
+   ```
+
+更多详细信息请参阅 [scripts/README.md](scripts/README.md)
+
+### Vercel 部署
 
 1. Fork 本项目到你的 GitHub 账号
 2. 在 Vercel 中导入项目
@@ -87,11 +110,22 @@ pnpm dev
    - 数据库会自动完成初始化
 5. 部署完成后即可访问
 
-注意：项目已配置每小时自动更新内容，您可以在 Vercel 的 "Cron Jobs" 中监控定时任务的执行情况。
+注意：如果使用 Vercel 部署，需要添加 `vercel.json` 文件来配置定时任务：
+
+```json
+{
+  "crons": [
+    {
+      "path": "/api/cron",
+      "schedule": "0 * * * *"
+    }
+  ]
+}
+```
 
 ## 项目结构
 
-\`\`\`
+```
 ├── src/
 │   ├── app/          # Next.js 应用路由和页面
 │   ├── components/   # React 组件
@@ -99,8 +133,9 @@ pnpm dev
 │   └── types/       # TypeScript 类型定义
 ├── prisma/          # 数据库模型和迁移
 ├── public/          # 静态资源
+├── scripts/         # 部署和定时任务脚本
 └── ...配置文件
-\`\`\`
+```
 
 ## 功能特性
 
