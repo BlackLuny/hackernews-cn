@@ -1,0 +1,18 @@
+[Unit]
+Description=HackerNews CN Next.js Application
+After=network.target
+
+[Service]
+Type=simple
+User=root
+WorkingDirectory=/root/code/hackernews-cn
+ExecStart=/usr/bin/pnpm start
+Restart=on-failure
+RestartSec=10
+StandardOutput=syslog
+StandardError=syslog
+SyslogIdentifier=hackernews-cn
+Environment=NODE_ENV=production
+
+[Install]
+WantedBy=multi-user.target 
