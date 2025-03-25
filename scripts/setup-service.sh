@@ -20,7 +20,7 @@ After=network.target
 Type=simple
 User=$(logname)
 WorkingDirectory=$PROJECT_DIR
-ExecStart=$(which node) $PROJECT_DIR/node_modules/.bin/ts-node --project $PROJECT_DIR/tsconfig.json $PROJECT_DIR/scripts/cron.ts
+ExecStart=$(which node) $PROJECT_DIR/scripts/cron.js
 Restart=on-failure
 Environment=NODE_ENV=production
 

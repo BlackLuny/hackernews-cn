@@ -4,7 +4,7 @@
 
 ## 脚本说明
 
-- `cron.ts`: 主要的定时任务脚本，使用 node-cron 定时运行 API 接口
+- `cron.js`: 主要的定时任务脚本，使用 node-cron 定时运行 API 接口
 - `setup-service.sh`: Linux 系统下设置 systemd 服务的脚本
 - `setup-launchd.sh`: macOS 系统下设置 launchd 服务的脚本
 
@@ -36,6 +36,9 @@ npm run cron -- --run-now
 
 # 使用 pnpm
 pnpm cron --run-now
+
+# 直接使用 node
+node scripts/cron.js --run-now
 ```
 
 ### 3. 设置为系统服务

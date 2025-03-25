@@ -15,10 +15,7 @@ cat > ~/Library/LaunchAgents/com.hackernews-cn.cron.plist << EOL
     <key>ProgramArguments</key>
     <array>
         <string>$(which node)</string>
-        <string>${PROJECT_DIR}/node_modules/.bin/ts-node</string>
-        <string>--project</string>
-        <string>${PROJECT_DIR}/tsconfig.json</string>
-        <string>${PROJECT_DIR}/scripts/cron.ts</string>
+        <string>${PROJECT_DIR}/scripts/cron.js</string>
     </array>
     <key>RunAtLoad</key>
     <true/>
