@@ -9,7 +9,7 @@ const openai = new OpenAI({
 export async function translateText(text: string): Promise<string> {
   try {
     const response = await openai.chat.completions.create({
-      model: "gpt-4o-mini",
+      model: process.env.OPENAI_MODEL || "gpt-4o-mini",
       messages: [
         {
           role: "system",
